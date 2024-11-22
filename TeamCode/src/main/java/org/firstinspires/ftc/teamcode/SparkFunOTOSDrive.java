@@ -17,7 +17,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.messages.PoseMessage;
 
-/**
+/** ALEX XXXXXX
  * Experimental extension of MecanumDrive that uses the SparkFun OTOS sensor for localization.
  * <p>
  * Released under the BSD 3-Clause Clear License by j5155 from 12087 Capital City Dynamics
@@ -65,6 +65,7 @@ public class SparkFunOTOSDrive extends MecanumDrive {
     public SparkFunOTOSCorrected otos;
     private Pose2d lastOtosPose = pose;
 
+//"ESTIMATED_POSE"
     private final DownsampledWriter estimatedPoseWriter = new DownsampledWriter("ESTIMATED_POSE", 50_000_000);
 
     public SparkFunOTOSDrive(HardwareMap hardwareMap, Pose2d pose) {
