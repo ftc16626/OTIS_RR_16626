@@ -9,9 +9,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@Autonomous(name="RedRightSpecimen", group="SecondBot")
+@Autonomous(name="RedRightSample", group="SecondBot")
 
-public class RedRightArm extends LinearOpMode {
+public class RedRightArmOther extends LinearOpMode {
 
     /* Declare OpMode members. */
     private DcMotor         LFMotor   = null;
@@ -116,23 +116,19 @@ public class RedRightArm extends LinearOpMode {
         encoderDrive(0.7, ROT_SPEED,23, 23, 23, 23, false, 130, 13 , 0, 0, 5); // Go to specimen rack, rotate & arm
         encoderDrive(0.7, ROT_SPEED,0, 0, 0, 0, false, 0, 5.5, 0, 0, 5); // Finish extension
         encoderDrive(0.7, ROT_SPEED, 0, 0, 0 , 0, false, -62, -15.5, -1, 1, 5); // Hook Specimen
-        encoderDrive(0.7, ROT_SPEED, -1.5, -1.5, -1.5 , -1.5, false, -20, 0 , 0, 0, 5); // Reverse
-        encoderDrive(0.7, ROT_SPEED, -38, -38, -38, -38, true, 0, 0, 0, 0, 5); // Strafe right towards red sample's left side
-        encoderDrive(0.7, ROT_SPEED,12, 12, 12, 12, false, 0, 0, 0, 0, 2.0); // Go forward towards red sample
-        encoderDrive(DRIVE_SPEED, ROT_SPEED, -14.5, -14.5, -14.5, -14.5, true, 0, 0, 0, 0, 1.5); // Strafe right to get in front of sample
-        encoderDrive(DRIVE_SPEED, ROT_SPEED, -40, -40, -40, -40, false, 0, 0, 0, 0, 2.0); // Reverse sample into human player area
-        encoderDrive(DRIVE_SPEED, ROT_SPEED, 20, 20, 20, 20, false, 0, 0, 0, 0, 2.0); // Go forward to allow specimen assembly
-        encoderDrive(DRIVE_SPEED, ROT_SPEED, 50, 50, -50, -50, false, 0, 0, 0, 0, 2.0); // Turn 180 degrees (now facing specimen on wall)
-        encoderDrive((DRIVE_SPEED * 0.5), ROT_SPEED, 22, 22, 22, 22, false, 39.0, 0, 0, 0, 2.0); // Go towards specimen on wall and intake
-        encoderDrive((DRIVE_SPEED * 0.4), ROT_SPEED, 0, 0, 0, 0, false, 0, 11.5, -1, 1, 1.0); // Go towards specimen on wall and intake
-        encoderDrive((DRIVE_SPEED * 0.4), ROT_SPEED, 0, 0, 0, 0, false, 5, 0, -1, 1, 0.5); // Rotate to pick specimen off wall
-        encoderDrive(DRIVE_SPEED, ROT_SPEED, -9, -9, -9, -9, false, 0, 0, 0, 0, 1.5); // Reverse from wall
-        encoderDrive(DRIVE_SPEED, ROT_SPEED,-50, -50, -50, -50, true, 0, 0, 0, 0, 2.0); // Strafe right towards specimen rack
-        encoderDrive(DRIVE_SPEED, ROT_SPEED, 42, 42, -42, -42, false, 0, 0, 0, 0, 2.0); // Turn 180 degrees (now facing specimen rack)
-        encoderDrive(DRIVE_SPEED, ROT_SPEED, 0, 0, 0, 0, false, 30.0, 15.5, 0, 0, 2.0); // Extend and rotate arm
-        encoderDrive(DRIVE_SPEED, ROT_SPEED, 0, 0, 0, 0, false, -77, -15.5, 1, -1, 1.5); // Hook specimen to rack
-        encoderDrive(DRIVE_SPEED, ROT_SPEED,-20, -20, -20, -20, false, 0, 0, 0, 0, 0.0); // Reverse from rack
-        encoderDrive(DRIVE_SPEED, ROT_SPEED, 18, 18, 18, 18, true, 0, 0, 0, 0, 0.0); // Strafe right into parking
+        encoderDrive(0.7, ROT_SPEED, -4, -4, -4 , -4, false, -20, 0 , 0, 0, 5); // Reverse
+        encoderDrive(0.7, ROT_SPEED, 37, 37, 37 , 37, true, -20, 0 , 0, 0, 5); // Strafe Left Sample 1
+        encoderDrive(0.7, ROT_SPEED, 0, 0, 0 , 0, false, 0, 5 , -1, 1, 5); // Intake Sample
+        encoderDrive(0.7, ROT_SPEED, -40, -40, 40 , 40, false, 100, -5 , 0, 0, 5); // TurntoBucket
+        encoderDrive(0.7, ROT_SPEED, 15, 15, 15 , 15, false, 10, 18 , 0, 0, 5); // Forward Extend
+        encoderDrive(0.7, ROT_SPEED, 0, 0, 0 , 0, false, 0, 0 , 1, -1, 1); // Outtake
+        encoderDrive(0.7, ROT_SPEED, 40, 40, -40 , -40, false, -20, -15 , 0, 0, 5); // Tuck n Turn
+        encoderDrive(0.7, ROT_SPEED, 13, 13, 13 , 13, false, -80, 5 , -1, 1, 5); // Forward n Grab
+        encoderDrive(0.7, ROT_SPEED, -50, -50, 50 , 50, false, 100, -5 , 0, 0, 5); // 180 Turn
+        encoderDrive(0.7, ROT_SPEED, 13, 13, 15 , 15, false, 10, 18 , 0, 0, 5); // Forward Extend
+        encoderDrive(0.7, ROT_SPEED, 0, 0, 0 , 0, false, 0, 0 , 1, -1, 5); // Outtake
+        encoderDrive(0.7, ROT_SPEED, 30, 30, -30 , -30, false, -10, -18 , 0, 0, 5); // Turn
+        encoderDrive(0.7, ROT_SPEED, -40, -40, -40 , -40, true, -40, 0 , 0, 0, 5); // Park Strafe
 
 
 

@@ -39,9 +39,9 @@ public class RedRightArm extends LinearOpMode {
     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;
     static final double     PULLEY_DIAMETER_INCHES = 1.5 ;// For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_DRIVE_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-            (WHEEL_DIAMETER_INCHES * 3.1415);
+                                                      (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double     COUNTS_PER_EXTINCH      = (COUNTS_PER_EXT_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-            (PULLEY_DIAMETER_INCHES * 3.1415);
+                                                      (PULLEY_DIAMETER_INCHES * 3.1415);
     static final double     ROTATE_GEAR_REDUC = 2.0 ;
     static final double     COUNTS_PER_DEGREE       = (COUNTS_PER_ROT_MOTOR_REV * ROTATE_GEAR_REDUC) / 360;
     static final double     DRIVE_SPEED             = 1;
@@ -94,13 +94,13 @@ public class RedRightArm extends LinearOpMode {
 
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Starting at",  "%7d :%7d",
-                LFMotor.getCurrentPosition(),
-                LBMotor.getCurrentPosition(),
-                RFMotor.getCurrentPosition(),
-                RBMotor.getCurrentPosition(),
-                rotateArm.getCurrentPosition(),
-                extendArm.getCurrentPosition(),
-                extendArm2.getCurrentPosition());
+                          LFMotor.getCurrentPosition(),
+                          LBMotor.getCurrentPosition(),
+                          RFMotor.getCurrentPosition(),
+                          RBMotor.getCurrentPosition(),
+                          rotateArm.getCurrentPosition(),
+                          extendArm.getCurrentPosition(),
+                          extendArm2.getCurrentPosition());
         telemetry.update();
 
         // Wait for the game to start (driver presses START)
@@ -117,9 +117,9 @@ public class RedRightArm extends LinearOpMode {
         encoderDrive(0.7, ROT_SPEED,0, 0, 0, 0, false, 0, 5.5, 0, 0, 5); // Finish extension
         encoderDrive(0.7, ROT_SPEED, 0, 0, 0 , 0, false, -62, -15.5, -1, 1, 5); // Hook Specimen
         encoderDrive(0.7, ROT_SPEED, -1.5, -1.5, -1.5 , -1.5, false, -20, 0 , 0, 0, 5); // Reverse
-        encoderDrive(0.7, ROT_SPEED, -38, -38, -38, -38, true, 0, 0, 0, 0, 5); // Strafe right towards red sample's left side
-        encoderDrive(0.7, ROT_SPEED,12, 12, 12, 12, false, 0, 0, 0, 0, 2.0); // Go forward towards red sample
-        encoderDrive(DRIVE_SPEED, ROT_SPEED, -14.5, -14.5, -14.5, -14.5, true, 0, 0, 0, 0, 1.5); // Strafe right to get in front of sample
+        encoderDrive(0.7, ROT_SPEED, 38, 38, 38, 38, true, 0, 0, 0, 0, 5); // Strafe right towards red sample's left side
+        encoderDrive(0.7, ROT_SPEED,-12, -12, -12, -12, false, 0, 0, 0, 0, 2.0); // Go forward towards red sample
+        encoderDrive(DRIVE_SPEED, ROT_SPEED, 14.5, 14.5, 14.5, 14.5, true, 0, 0, 0, 0, 1.5); // Strafe right to get in front of sample
         encoderDrive(DRIVE_SPEED, ROT_SPEED, -40, -40, -40, -40, false, 0, 0, 0, 0, 2.0); // Reverse sample into human player area
         encoderDrive(DRIVE_SPEED, ROT_SPEED, 20, 20, 20, 20, false, 0, 0, 0, 0, 2.0); // Go forward to allow specimen assembly
         encoderDrive(DRIVE_SPEED, ROT_SPEED, 50, 50, -50, -50, false, 0, 0, 0, 0, 2.0); // Turn 180 degrees (now facing specimen on wall)
@@ -127,7 +127,7 @@ public class RedRightArm extends LinearOpMode {
         encoderDrive((DRIVE_SPEED * 0.4), ROT_SPEED, 0, 0, 0, 0, false, 0, 11.5, -1, 1, 1.0); // Go towards specimen on wall and intake
         encoderDrive((DRIVE_SPEED * 0.4), ROT_SPEED, 0, 0, 0, 0, false, 5, 0, -1, 1, 0.5); // Rotate to pick specimen off wall
         encoderDrive(DRIVE_SPEED, ROT_SPEED, -9, -9, -9, -9, false, 0, 0, 0, 0, 1.5); // Reverse from wall
-        encoderDrive(DRIVE_SPEED, ROT_SPEED,-50, -50, -50, -50, true, 0, 0, 0, 0, 2.0); // Strafe right towards specimen rack
+        encoderDrive(DRIVE_SPEED, ROT_SPEED,50, 50, 50, 50, true, 0, 0, 0, 0, 2.0); // Strafe right towards specimen rack
         encoderDrive(DRIVE_SPEED, ROT_SPEED, 42, 42, -42, -42, false, 0, 0, 0, 0, 2.0); // Turn 180 degrees (now facing specimen rack)
         encoderDrive(DRIVE_SPEED, ROT_SPEED, 0, 0, 0, 0, false, 30.0, 15.5, 0, 0, 2.0); // Extend and rotate arm
         encoderDrive(DRIVE_SPEED, ROT_SPEED, 0, 0, 0, 0, false, -77, -15.5, 1, -1, 1.5); // Hook specimen to rack
@@ -147,7 +147,7 @@ public class RedRightArm extends LinearOpMode {
 
 
 
-        telemetry.addData("Path", "Complete");
+                telemetry.addData("Path", "Complete");
 
         telemetry.update();
         sleep(1000);  // pause to display final telemetry message.
@@ -171,11 +171,11 @@ public class RedRightArm extends LinearOpMode {
         if (opModeIsActive()) {
             if (Strafe) {
                 LFMotor.setDirection(DcMotor.Direction.FORWARD);
-                RBMotor.setDirection(DcMotor.Direction.REVERSE);
+                RFMotor.setDirection(DcMotor.Direction.REVERSE);
             }
             else {
                 LFMotor.setDirection(DcMotor.Direction.REVERSE);
-                RBMotor.setDirection(DcMotor.Direction.FORWARD);
+                RFMotor.setDirection(DcMotor.Direction.FORWARD);
             }
 
 
@@ -226,13 +226,13 @@ public class RedRightArm extends LinearOpMode {
             // However, if you require that BOTH motors have finished their moves before the robot continues
             //onto the next step, use (isBusy() || isBusy()) in the loop test.
             while (opModeIsActive() &&
-                    (runtime.seconds() < timeoutS) &&
-                    (LFMotor.isBusy() || rotateArm.isBusy() || extendArm.isBusy() ||extendArm2.isBusy() || RFMotor.isBusy() || LBMotor.isBusy() || RBMotor.isBusy() )) {
+                   (runtime.seconds() < timeoutS) &&
+                   (LFMotor.isBusy() || rotateArm.isBusy() || extendArm.isBusy() ||extendArm2.isBusy() || RFMotor.isBusy() || LBMotor.isBusy() || RBMotor.isBusy() )) {
 
                 // Display it for the driver.
                 telemetry.addData("Running to",  " %7d :%7d", newLFTarget, newRFTarget,  newRBTarget,  newLBTarget);
                 telemetry.addData("Currently at",  " at %7d :%7d",
-                        LFMotor.getCurrentPosition(), RFMotor.getCurrentPosition(), LBMotor.getCurrentPosition(), RBMotor.getCurrentPosition(), rotateArm.getCurrentPosition(), extendArm.getCurrentPosition());
+                                            LFMotor.getCurrentPosition(), RFMotor.getCurrentPosition(), LBMotor.getCurrentPosition(), RBMotor.getCurrentPosition(), rotateArm.getCurrentPosition(), extendArm.getCurrentPosition());
                 telemetry.update();
             }
 
@@ -255,7 +255,7 @@ public class RedRightArm extends LinearOpMode {
             rotateArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             extendArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             extendArm2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+            
         }
     }
 }

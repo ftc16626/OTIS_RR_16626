@@ -26,9 +26,9 @@ public class RedRight2 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         SparkFunOTOSDrive drive = new SparkFunOTOSDrive(hardwareMap, new Pose2d(0,0,0));
-        Servo Wheel1 = hardwareMap.servo.get("Wheel1");
+        CRServo Wheel1 = hardwareMap.crservo.get("Wheel1");
         Wheel1.resetDeviceConfigurationForOpMode();
-        Servo Wheel2 =  hardwareMap.servo.get("Wheel2");
+        CRServo Wheel2 =  hardwareMap.crservo.get("Wheel2");
         Wheel2.resetDeviceConfigurationForOpMode();
         DcMotor rotateArm = hardwareMap.get(DcMotor.class, "rotateArm");
         DcMotor extendArm1 = hardwareMap.get(DcMotor.class, "extendArm1");
@@ -51,11 +51,10 @@ public class RedRight2 extends LinearOpMode {
         extendArm2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         Actions.runBlocking(
-                drive.actionBuilder(new Pose2d(0,0,0))
-                        .lineToX(5)
-                        .stopAndAdd(new Intake(Wheel1, 0))
-                        .stopAndAdd(new RedRightArm(extendArm1, extendArm2, rotateArm, 1, 1, 6, 15, 5  ))
-                        .lineToX(0)
+                drive.actionBuilder(new Pose2d(0,-60,0))
+                        .lineToYConstantHeading(-35)
+                        .strafeTo(new Vector2d(-48,-38))
+                        .turn(Math.toRadians(90))
                         .build());
 
 
