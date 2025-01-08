@@ -51,10 +51,8 @@ public class RedRight2 extends LinearOpMode {
         extendArm2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         Actions.runBlocking(
-                drive.actionBuilder(new Pose2d(0,-60,0))
-                        .lineToYConstantHeading(-35)
-                        .strafeTo(new Vector2d(-48,-38))
-                        .turn(Math.toRadians(90))
+                drive.actionBuilder(new Pose2d(-63.5,0,0))
+                        .splineTo(new Vector2d(0, -10), Math.PI / 2)
                         .build());
 
 

@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@Autonomous(name="RedRightSample", group="SecondBot")
+@Autonomous(name="RedLeftSample", group="SecondBot")
 
 public class RedRightArmOther extends LinearOpMode {
 
@@ -113,22 +113,30 @@ public class RedRightArmOther extends LinearOpMode {
         LBMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        encoderDrive(0.7, ROT_SPEED,23, 23, 23, 23, false, 130, 13 , 0, 0, 5); // Go to specimen rack, rotate & arm
-        encoderDrive(0.7, ROT_SPEED,0, 0, 0, 0, false, 0, 5.5, 0, 0, 5); // Finish extension
-        encoderDrive(0.7, ROT_SPEED, 0, 0, 0 , 0, false, -62, -15.5, -1, 1, 5); // Hook Specimen
-        encoderDrive(0.7, ROT_SPEED, -4, -4, -4 , -4, false, -20, 0 , 0, 0, 5); // Reverse
-        encoderDrive(0.7, ROT_SPEED, 37, 37, 37 , 37, true, -20, 0 , 0, 0, 5); // Strafe Left Sample 1
-        encoderDrive(0.7, ROT_SPEED, 0, 0, 0 , 0, false, 0, 5 , -1, 1, 5); // Intake Sample
-        encoderDrive(0.7, ROT_SPEED, -40, -40, 40 , 40, false, 100, -5 , 0, 0, 5); // TurntoBucket
-        encoderDrive(0.7, ROT_SPEED, 15, 15, 15 , 15, false, 10, 18 , 0, 0, 5); // Forward Extend
+        sleep(3000);
+        encoderDrive(0.7, ROT_SPEED,-5, -5, -5, -5, true, 0, 0 , 0, 0, 5); // Go to specimen rack, rotate & arm
+        encoderDrive(0.7, ROT_SPEED,24, 24, 24, 24, false, 133, 10 , 0, 0, 5); // Go to specimen rack, rotate & arm
+        encoderDrive(0.7, .6,0, 0, 0, 0, false, 0, 6.5, 0, 0, 5); // Finish extension
+        encoderDrive(0.7, ROT_SPEED, 0, 0, 0 , 0, false, -63, -15.5, -1, 1, 5); // Hook Specimen
+        encoderDrive(0.7, ROT_SPEED, -9, -9, -9 , -9, false, -29, 0 , 0, 0, 5); // Reverse
+        encoderDrive(0.7, ROT_SPEED, 50, 50, 50 , 50, true, -10, 0 , 0, 0, 5); // Strafe Left Sample 1
+        encoderDrive(.5, ROT_SPEED, 0, 0, 0 , 0, false, 0, 16 , -1, 1, 5); // Intake Sample
+        encoderDrive(.5, ROT_SPEED, 0, 0, 0 , 0, false, 35, -5 , 0, 0, 1); // Over Sec Sample
+        encoderDrive(0.7, ROT_SPEED, -33, -33, 33, 33, false, 110, 0 , 0, 0, 3); // TurntoBucket
+        encoderDrive(0.7, ROT_SPEED, 17, 17, 17, 17, false, 10, 14 , 0, 0, 3); // Forward Extend
         encoderDrive(0.7, ROT_SPEED, 0, 0, 0 , 0, false, 0, 0 , 1, -1, 1); // Outtake
-        encoderDrive(0.7, ROT_SPEED, 40, 40, -40 , -40, false, -20, -15 , 0, 0, 5); // Tuck n Turn
-        encoderDrive(0.7, ROT_SPEED, 13, 13, 13 , 13, false, -80, 5 , -1, 1, 5); // Forward n Grab
-        encoderDrive(0.7, ROT_SPEED, -50, -50, 50 , 50, false, 100, -5 , 0, 0, 5); // 180 Turn
-        encoderDrive(0.7, ROT_SPEED, 13, 13, 15 , 15, false, 10, 18 , 0, 0, 5); // Forward Extend
-        encoderDrive(0.7, ROT_SPEED, 0, 0, 0 , 0, false, 0, 0 , 1, -1, 5); // Outtake
-        encoderDrive(0.7, ROT_SPEED, 30, 30, -30 , -30, false, -10, -18 , 0, 0, 5); // Turn
-        encoderDrive(0.7, ROT_SPEED, -40, -40, -40 , -40, true, -40, 0 , 0, 0, 5); // Park Strafe
+        encoderDrive(0.7, ROT_SPEED, 0, 0, 0 , 0, false, 0, -25 , 0, 0, 3); // Tuck
+        encoderDrive(0.7, ROT_SPEED, 45, 45, -45 , -45, false, -100, 0 , 0, 0, 2); // Turn
+        encoderDrive(0.7, ROT_SPEED, 70, 70, 50 , 50, false, 40, 15 , 0, 0, 3); // Park
+
+
+        // encoderDrive(0.7, ROT_SPEED, 38, 38, -38 , -38, false, -80, 0 , 0, 0, 2); // Turn
+        //encoderDrive(0.7, ROT_SPEED, 13, 13, 13 , 13, false, 0, 5 , -1, 1, 5); // Forward n Grab
+       // encoderDrive(0.7, ROT_SPEED, -50, -50, 50 , 50, false, 100, -5 , 0, 0, 5); // 180 Turn
+       // encoderDrive(0.7, ROT_SPEED, 13, 13, 15 , 15, false, 10, 18 , 0, 0, 5); // Forward Extend
+       // encoderDrive(0.7, ROT_SPEED, 0, 0, 0 , 0, false, 0, 0 , 1, -1, 5); // Outtake
+       // encoderDrive(0.7, ROT_SPEED, 30, 30, -30 , -30, false, -10, -18 , 0, 0, 5); // Turn
+       // encoderDrive(0.7, ROT_SPEED, -40, -40, -40 , -40, true, -40, 0 , 0, 0, 5); // Park Strafe
 
 
 
