@@ -21,11 +21,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@Autonomous(name = "BLUE_TEST_AUTO_PIXEL", group = "Autonomous")
+@Autonomous(name = "DAMN", group = "Autonomous")
 public class RedRight2 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        SparkFunOTOSDrive drive = new SparkFunOTOSDrive(hardwareMap, new Pose2d(0,0,0));
+        SparkFunOTOSDrive drive = new SparkFunOTOSDrive(hardwareMap, new Pose2d(-72,8,0));
         CRServo Wheel1 = hardwareMap.crservo.get("Wheel1");
         Wheel1.resetDeviceConfigurationForOpMode();
         CRServo Wheel2 =  hardwareMap.crservo.get("Wheel2");
@@ -52,11 +52,13 @@ public class RedRight2 extends LinearOpMode {
         extendArm2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         Actions.runBlocking(
-                drive.actionBuilder(new Pose2d(0,0,0))
-                        .stopAndAdd(new Rotate(rotateArm, 50))
-                        .waitSeconds(5)
-                        .stopAndAdd(new Extend(extendArm1, extendArm2, 3))
-                        .stopAndAdd(new Intake(Wheel1, Wheel2,-1,1))
+                drive.actionBuilder(new Pose2d(-72,8,0))
+                        .lineToX(-43)
+                        .stopAndAdd(new RotateUp(rotateArm, 115))
+                        .stopAndAdd(new ExtendOut(extendArm1, extendArm2, 11.5))
+                        .stopAndAdd(new RotateDown(rotateArm, -8))
+                        .stopAndAdd(new ExtendIn(extendArm1, extendArm2, -10))
+
                         .build());
 
 
@@ -89,14 +91,14 @@ public class RedRight2 extends LinearOpMode {
     }
 
 
-    public class Extend implements Action {
+    public class ExtendOut implements Action {
         DcMotor extendArm1;
         DcMotor extendArm2;
         double Aposition;
         private boolean initialized = false;
         ElapsedTime timer;
 
-        public Extend(DcMotor l, DcMotor r, double ext) {
+        public ExtendOut(DcMotor l, DcMotor r, double ext) {
             this.extendArm1 = l;
             this.extendArm2 = r;
             this.Aposition = ext;
@@ -137,13 +139,61 @@ public class RedRight2 extends LinearOpMode {
 
 
     }
-    public class Rotate implements Action {
+    public class ExtendIn implements Action {
+        DcMotor extendArm1;
+        DcMotor extendArm2;
+        double Aposition;
+        private boolean initialized = false;
+        ElapsedTime timer;
+
+        public ExtendIn(DcMotor l, DcMotor r, double ext) {
+            this.extendArm1 = l;
+            this.extendArm2 = r;
+            this.Aposition = ext;
+        }
+        @Override public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            if(!initialized) {
+                timer = new ElapsedTime();
+                final double     COUNTS_PER_EXT_MOTOR_REV    = 537.7;
+                final double     PULLEY_DIAMETER_INCHES = 1.5 ;// For figuring circumference
+                final double     COUNTS_PER_EXTINCH      = (COUNTS_PER_EXT_MOTOR_REV) /
+                        (PULLEY_DIAMETER_INCHES * 3.1415);
+                int newLEXTarget;
+                int newREXTarget;
+                newLEXTarget = extendArm1.getCurrentPosition() + (int)(Aposition * COUNTS_PER_EXTINCH);
+                newREXTarget = extendArm2.getCurrentPosition() + (int)(Aposition * COUNTS_PER_EXTINCH);
+                extendArm1.setTargetPosition(newLEXTarget);
+                extendArm2.setTargetPosition(newREXTarget);
+                extendArm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                extendArm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                extendArm1.setPower(Math.abs(-1));
+                extendArm2.setPower(Math.abs(-1));
+                initialized = true;
+            }
+
+            double pos = extendArm1.getCurrentPosition();
+            double end = extendArm2.getTargetPosition();
+
+            if (pos > end) {
+                return true;
+            } else {
+                extendArm1.setPower(Math.abs(0));
+                extendArm2.setPower(Math.abs(0));
+                extendArm1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                extendArm2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                return false;
+            }
+        }
+
+
+    }
+    public class RotateUp implements Action {
         DcMotor rotateArm;
         double Rposition;
         private boolean initialized = false;
         ElapsedTime timer;
 
-        public Rotate(DcMotor l, double rot) {
+        public RotateUp(DcMotor l, double rot) {
             this.rotateArm = l;
             this.Rposition = rot;
         }
@@ -167,6 +217,47 @@ public class RedRight2 extends LinearOpMode {
             double pos = rotateArm.getCurrentPosition();
             double end = rotateArm.getTargetPosition();
             if (pos < end) {
+                return true;
+            } else {
+                rotateArm.setPower(Math.abs(.05));
+                rotateArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                return false;
+            }
+
+
+
+        }
+    }
+    public class RotateDown implements Action {
+        DcMotor rotateArm;
+        double Rposition;
+        private boolean initialized = false;
+        ElapsedTime timer;
+
+        public RotateDown(DcMotor l, double rot) {
+            this.rotateArm = l;
+            this.Rposition = rot;
+        }
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            if (!initialized) {
+                timer = new ElapsedTime();
+                final double COUNTS_PER_ROT_MOTOR_REV = 1993.6;
+                final double ROTATE_GEAR_REDUC = 2.0;
+                final double COUNTS_PER_DEGREE = (COUNTS_PER_ROT_MOTOR_REV * ROTATE_GEAR_REDUC) / 360;
+
+                int newROTarget;
+                newROTarget = rotateArm.getCurrentPosition() + (int) (Rposition * COUNTS_PER_DEGREE);
+                rotateArm.setTargetPosition(newROTarget);
+                rotateArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rotateArm.setPower(Math.abs(-1));
+                initialized = true;
+            }
+
+            double pos = rotateArm.getCurrentPosition();
+            double end = rotateArm.getTargetPosition();
+            if (pos > end) {
                 return true;
             } else {
                 rotateArm.setPower(Math.abs(.05));
