@@ -5,6 +5,7 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -45,6 +46,7 @@ public class RedRight2 extends LinearOpMode {
         extendArm2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
+
         waitForStart();
 
         rotateArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -53,14 +55,11 @@ public class RedRight2 extends LinearOpMode {
 
         Actions.runBlocking(
                 drive.actionBuilder(new Pose2d(-72,8,0))
-                        .lineToX(-43)
-                        .stopAndAdd(new RotateUp(rotateArm, 115))
-                        .stopAndAdd(new ExtendOut(extendArm1, extendArm2, 11.5))
-                        .stopAndAdd(new RotateDown(rotateArm, -8))
-                        .stopAndAdd(new ExtendIn(extendArm1, extendArm2, -10))
-
+                      .lineToX(-43).stopAndAdd(new RotateUp(rotateArm, 115))
+                      .stopAndAdd(new ExtendOut(extendArm1, extendArm2, 11.5))
+                      .stopAndAdd(new RotateDown(rotateArm, -8))
+                      .stopAndAdd(new ExtendIn(extendArm1, extendArm2, -10))
                         .build());
-
 
     }
 
