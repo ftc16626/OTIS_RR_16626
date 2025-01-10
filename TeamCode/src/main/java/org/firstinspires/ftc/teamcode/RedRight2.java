@@ -54,41 +54,18 @@ public class RedRight2 extends LinearOpMode {
         extendArm2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         Actions.runBlocking(
-                drive.actionBuilder(new Pose2d(-72,8,0))
-                      .lineToX(-43).stopAndAdd(new RotateUp(rotateArm, 115))
-                      .stopAndAdd(new ExtendOut(extendArm1, extendArm2, 11.5))
-                      .stopAndAdd(new RotateDown(rotateArm, -8))
-                      .stopAndAdd(new ExtendIn(extendArm1, extendArm2, -10))
+                drive.actionBuilder(new Pose2d(-9,-64.125,Math.toRadians(90)))
+                        .lineToY(-37.9)
+                        .stopAndAdd(new RotateUp(rotateArm, 110))
+                        .stopAndAdd(new ExtendOut(extendArm1, extendArm2, Wheel1, Wheel2, 13.5, 1, 0, 0))
+                        .stopAndAdd(new RotateDown(rotateArm, -8))
+                        .stopAndAdd(new ExtendIn(extendArm1, extendArm2, Wheel1, Wheel2, -12, -1, -1,1))
+                        .stopAndAdd(new RotateDown(rotateArm, -84))
+                        .strafeToLinearHeading(new Vector2d( -46, -47 ), Math.toRadians(88))
+                        .stopAndAdd(new ExtendOut(extendArm1, extendArm2, Wheel1, Wheel2, 14, .7,-1,1))
                         .build());
 
     }
-
-    public class Intake implements Action {
-        CRServo Wheel1;
-        CRServo Wheel2;
-        double lpower;
-        double rpower;
-        ElapsedTime timer;
-
-
-        public Intake(CRServo ls, CRServo rs, double lp, double rp) {
-            this.Wheel1 = ls;
-            this.Wheel2 = rs;
-            this.lpower = lp;
-            this.rpower = rp;
-        }
-        @Override
-        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-            if(timer == null) {
-                timer = new ElapsedTime();
-            }
-            Wheel1.setPower(lpower);
-            Wheel2.setPower(rpower);
-            return timer.seconds() < 3;
-
-        }
-    }
-
 
     public class ExtendOut implements Action {
         DcMotor extendArm1;
@@ -96,11 +73,21 @@ public class RedRight2 extends LinearOpMode {
         double Aposition;
         private boolean initialized = false;
         ElapsedTime timer;
+        double speed;
+        CRServo Wheel1;
+        CRServo Wheel2;
+        double lpower;
+        double rpower;
 
-        public ExtendOut(DcMotor l, DcMotor r, double ext) {
+        public ExtendOut(DcMotor l, DcMotor r, CRServo ls, CRServo rs, double ext, double speed, double lp, double rp) {
             this.extendArm1 = l;
             this.extendArm2 = r;
             this.Aposition = ext;
+            this.speed = speed;
+            this.Wheel1 = ls;
+            this.Wheel2 = rs;
+            this.lpower = lp;
+            this.rpower = rp;
         }
         @Override public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             if(!initialized) {
@@ -117,13 +104,15 @@ public class RedRight2 extends LinearOpMode {
                 extendArm2.setTargetPosition(newREXTarget);
                 extendArm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 extendArm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                extendArm1.setPower(Math.abs(1));
-                extendArm2.setPower(Math.abs(1));
+                extendArm1.setPower(Math.abs(speed));
+                extendArm2.setPower(Math.abs(speed));
                 initialized = true;
             }
 
             double pos = extendArm1.getCurrentPosition();
             double end = extendArm2.getTargetPosition();
+            Wheel1.setPower(lpower);
+            Wheel2.setPower(rpower);
 
             if (pos < end) {
                 return true;
@@ -144,11 +133,21 @@ public class RedRight2 extends LinearOpMode {
         double Aposition;
         private boolean initialized = false;
         ElapsedTime timer;
+        double speed;
+        CRServo Wheel1;
+        CRServo Wheel2;
+        double lpower;
+        double rpower;
 
-        public ExtendIn(DcMotor l, DcMotor r, double ext) {
+        public ExtendIn(DcMotor l, DcMotor r, CRServo ls, CRServo rs, double ext, double speed, double lp, double rp) {
             this.extendArm1 = l;
             this.extendArm2 = r;
             this.Aposition = ext;
+            this.speed = speed;
+            this.Wheel1 = ls;
+            this.Wheel2 = rs;
+            this.lpower = lp;
+            this.rpower = rp;
         }
         @Override public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             if(!initialized) {
@@ -165,13 +164,15 @@ public class RedRight2 extends LinearOpMode {
                 extendArm2.setTargetPosition(newREXTarget);
                 extendArm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 extendArm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                extendArm1.setPower(Math.abs(-1));
-                extendArm2.setPower(Math.abs(-1));
+                extendArm1.setPower(Math.abs(speed));
+                extendArm2.setPower(Math.abs(speed));
                 initialized = true;
             }
 
             double pos = extendArm1.getCurrentPosition();
             double end = extendArm2.getTargetPosition();
+            Wheel1.setPower(lpower);
+            Wheel2.setPower(rpower);
 
             if (pos > end) {
                 return true;
@@ -186,6 +187,7 @@ public class RedRight2 extends LinearOpMode {
 
 
     }
+
     public class RotateUp implements Action {
         DcMotor rotateArm;
         double Rposition;
@@ -218,7 +220,7 @@ public class RedRight2 extends LinearOpMode {
             if (pos < end) {
                 return true;
             } else {
-                rotateArm.setPower(Math.abs(.05));
+                rotateArm.setPower(Math.abs(.03));
                 rotateArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 return false;
             }
@@ -259,7 +261,7 @@ public class RedRight2 extends LinearOpMode {
             if (pos > end) {
                 return true;
             } else {
-                rotateArm.setPower(Math.abs(.05));
+                rotateArm.setPower(Math.abs(.03));
                 rotateArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 return false;
             }
