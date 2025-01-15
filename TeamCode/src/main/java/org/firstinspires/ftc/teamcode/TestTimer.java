@@ -4,20 +4,19 @@ import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.AngularVelConstraint;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.TurnConstraints;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-
-@Autonomous(name = "Winner", group = "Autonomous")
-public class CombinedArm extends LinearOpMode {
+@Disabled
+@Autonomous(name = "TestTimer", group = "Autonomous")
+public class TestTimer extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         SparkFunOTOSDrive drive = new SparkFunOTOSDrive(hardwareMap, new Pose2d(-72,8,0));
@@ -49,18 +48,12 @@ public class CombinedArm extends LinearOpMode {
 
         Actions.runBlocking(
                 drive.actionBuilder(new Pose2d(-9,-64.125,Math.toRadians(90)))
-                        .lineToY(-38)
-                        .stopAndAdd(new ArmOutRU(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,4,95,1,0,0 ))
-                        .stopAndAdd(new ArmOutRU(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,11,22,1,0,0 ))
-                        .stopAndAdd(new ArmInRD(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,-12,-92,-1,-1,1))
-                        .strafeToLinearHeading(new Vector2d( -48, -48 ), Math.toRadians(88))
-                        .stopAndAdd(new ArmOutRU(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,12,0,.6,-1,1))
-                        .stopAndAdd(new ArmOutRU(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,0,122,1,0,0))
-                        .turn(Math.toRadians(150))
-                        .lineToY(-61)
-                        .stopAndAdd(new ArmOutRU(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,10,10,1,0,0))
-                        .stopAndAdd(new ArmOutRU(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,0,0,1,1,-1))
-                        .waitSeconds(.3)
+                        //.lineToY(-25)
+                        //.turn(Math.toRadians(155))
+                        //.lineToY(-61)
+                        .stopAndAdd(new ArmOutRU(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,20,30,0,0,0,3))
+                        .lineToY(-20)
+
 
                         .build());
 
@@ -79,8 +72,9 @@ public class CombinedArm extends LinearOpMode {
         double rpower;
         DcMotor rotateArm;
         double Rposition;
+        double next;
 
-        public ArmOutRU(DcMotor l, DcMotor r, DcMotor ar, CRServo ls, CRServo rs, double ext, double rot, double speed, double lp, double rp) {
+        public ArmOutRU(DcMotor l, DcMotor r, DcMotor ar, CRServo ls, CRServo rs, double ext, double rot, double speed, double lp, double rp, double stop) {
             this.extendArm1 = l;
             this.extendArm2 = r;
             this.Aposition = ext;
@@ -91,13 +85,16 @@ public class CombinedArm extends LinearOpMode {
             this.rpower = rp;
             this.rotateArm = ar;
             this.Rposition = rot;
+            this.next = stop;
         }
-        @Override public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-            if(!initialized) {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            if (!initialized) {
                 timer = new ElapsedTime();
-                final double     COUNTS_PER_EXT_MOTOR_REV    = 537.7;
-                final double     PULLEY_DIAMETER_INCHES = 1.5 ;// For figuring circumference
-                final double     COUNTS_PER_EXTINCH      = (COUNTS_PER_EXT_MOTOR_REV) /
+                final double COUNTS_PER_EXT_MOTOR_REV = 537.7;
+                final double PULLEY_DIAMETER_INCHES = 1.5;// For figuring circumference
+                final double COUNTS_PER_EXTINCH = (COUNTS_PER_EXT_MOTOR_REV) /
                         (PULLEY_DIAMETER_INCHES * 3.1415);
                 final double COUNTS_PER_ROT_MOTOR_REV = 1993.6;
                 final double ROTATE_GEAR_REDUC = 2.0;
@@ -105,8 +102,8 @@ public class CombinedArm extends LinearOpMode {
                 int newROTarget;
                 int newLEXTarget;
                 int newREXTarget;
-                newLEXTarget = extendArm1.getCurrentPosition() + (int)(Aposition * COUNTS_PER_EXTINCH);
-                newREXTarget = extendArm2.getCurrentPosition() + (int)(Aposition * COUNTS_PER_EXTINCH);
+                newLEXTarget = extendArm1.getCurrentPosition() + (int) (Aposition * COUNTS_PER_EXTINCH);
+                newREXTarget = extendArm2.getCurrentPosition() + (int) (Aposition * COUNTS_PER_EXTINCH);
                 newROTarget = rotateArm.getCurrentPosition() + (int) (Rposition * COUNTS_PER_DEGREE);
                 rotateArm.setTargetPosition(newROTarget);
                 extendArm1.setTargetPosition(newLEXTarget);
@@ -126,7 +123,7 @@ public class CombinedArm extends LinearOpMode {
             Wheel2.setPower(rpower);
 
             if (pos < end) {
-                return true;
+                return timer.seconds() < next;
             } else {
                 extendArm1.setPower(Math.abs(0));
                 extendArm2.setPower(Math.abs(0));
@@ -134,11 +131,12 @@ public class CombinedArm extends LinearOpMode {
                 rotateArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 extendArm1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 extendArm2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                Wheel1.setPower(0);
+                Wheel2.setPower(0);
                 return false;
             }
+
         }
-
-
     }
 
     public class ArmInRD implements Action {
@@ -154,8 +152,9 @@ public class CombinedArm extends LinearOpMode {
         double rpower;
         DcMotor rotateArm;
         double Rposition;
+        double next;
 
-        public ArmInRD(DcMotor l, DcMotor r, DcMotor ar, CRServo ls, CRServo rs, double ext, double rot, double speed, double lp, double rp) {
+        public ArmInRD(DcMotor l, DcMotor r, DcMotor ar, CRServo ls, CRServo rs, double ext, double rot, double speed, double lp, double rp, double stop) {
             this.extendArm1 = l;
             this.extendArm2 = r;
             this.Aposition = ext;
@@ -166,6 +165,7 @@ public class CombinedArm extends LinearOpMode {
             this.rpower = rp;
             this.rotateArm = ar;
             this.Rposition = rot;
+            this.next = stop;
         }
         @Override public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             if(!initialized) {
@@ -202,15 +202,28 @@ public class CombinedArm extends LinearOpMode {
 
             if (pos > end) {
                 return true;
-            } else {
+            } else if(end == pos) {
                 extendArm1.setPower(Math.abs(0));
                 extendArm2.setPower(Math.abs(0));
                 rotateArm.setPower(Math.abs(.03));
                 rotateArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 extendArm1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 extendArm2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                Wheel1.setPower(0);
+                Wheel2.setPower(0);
+                return false;
+            }else if (timer.seconds() > next) {
+                extendArm1.setPower(Math.abs(0));
+                extendArm2.setPower(Math.abs(0));
+                rotateArm.setPower(Math.abs(.03));
+                rotateArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                extendArm1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                extendArm2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                Wheel1.setPower(0);
+                Wheel2.setPower(0);
                 return false;
             }
+            return true;
         }
 
 
