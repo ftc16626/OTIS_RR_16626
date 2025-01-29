@@ -53,7 +53,7 @@ public class ThreeSampleAuto extends LinearOpMode {
                         .stopAndAdd(new Intake(Wheel1, Wheel2, 1,-1,1)) // Score First
                         .stopAndAdd(new ArmInRD(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,-18,-0,-1,0,0,1.8)) // ExtDown
                         .stopAndAdd(new ArmInRD(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,-4,-131,-1,0,0,2)) // RotDown
-                        .strafeToLinearHeading(new Vector2d(-53,-52.5), Math.toRadians(82)) // Strafe Second Sample
+                        .strafeToLinearHeading(new Vector2d(-53,-52.5), Math.toRadians(83)) // Strafe Second Sample
                         .stopAndAdd(new ArmOutRU(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,15,12,.85,-1,1,3)) // Grap Sample Two
                         .stopAndAdd(new ArmInRD(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,-13,0,-1,0,0,1)) // Tuck In Arm
                         .stopAndAdd(new ArmOutRU(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,0,76,1,0,0,3)) // RotUp
