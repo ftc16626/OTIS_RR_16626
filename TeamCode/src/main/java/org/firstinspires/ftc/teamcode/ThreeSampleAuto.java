@@ -47,28 +47,28 @@ public class ThreeSampleAuto extends LinearOpMode {
 
         Actions.runBlocking(
                 drive.actionBuilder(new Pose2d(-9,-64.125,Math.toRadians(90)))
-                        .strafeToLinearHeading(new Vector2d( -60, -60), Math.toRadians(235)) // Strafe Score
-                        .stopAndAdd(new ArmOutRU(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,4,114,1,0,0,3)) // RotUP
+                        .strafeToLinearHeading(new Vector2d( -57.5, -57.5), Math.toRadians(235)) // Strafe Score
+                        .stopAndAdd(new ArmOutRU(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,4,114,1,0,0,2)) // RotUP
                         .stopAndAdd(new ArmOutRU(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,23,25,1,0,0,3)) // ExtUp
                         .stopAndAdd(new Intake(Wheel1, Wheel2, 1,-1,1)) // Score First
-                        .stopAndAdd(new ArmInRD(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,-18,-0,-1,0,0,1.8)) // ExtDown
-                        .stopAndAdd(new ArmInRD(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,-4,-131,-1,0,0,2)) // RotDown
-                        .strafeToLinearHeading(new Vector2d(-53,-52.5), Math.toRadians(83)) // Strafe Second Sample
-                        .stopAndAdd(new ArmOutRU(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,15,12,.85,-1,1,3)) // Grap Sample Two
+                        .stopAndAdd(new ArmInRD(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,-18,0,-1,0,0,1.6)) // ExtDown
+                        .stopAndAdd(new ArmInRD(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,-4,-131,-1,0,0,1.3)) // RotDown
+                        .strafeToLinearHeading(new Vector2d(-53,-50), Math.toRadians(85)) // Strafe Second Sample
+                        .stopAndAdd(new ArmOutRU(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,15,9,.85,-1,1,3)) // Grap Sample Two
                         .stopAndAdd(new ArmInRD(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,-13,0,-1,0,0,1)) // Tuck In Arm
-                        .stopAndAdd(new ArmOutRU(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,0,76,1,0,0,3)) // RotUp
-                        .strafeToLinearHeading(new Vector2d( -60.5, -65.5), Math.toRadians(230)) // SecondScoreStrafe
-                        .stopAndAdd(new ArmOutRU(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,5,45,1,0,0,1.2)) // RotUp
-                        .stopAndAdd(new ArmOutRU(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,15,0,1,0,0,2)) // ExtUp
+                        .stopAndAdd(new ArmOutRU(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,0,79,1,0,0,1.8)) // RotUp
+                        .strafeToLinearHeading(new Vector2d( -60.5, -65), Math.toRadians(230)) // SecondScoreStrafe
+                        .stopAndAdd(new ArmOutRU(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,5,44,1,0,0,1.2)) // RotUp
+                        .stopAndAdd(new ArmOutRU(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,16.75,0,1,0,0,1.7)) // ExtUp
                         .stopAndAdd(new Intake(Wheel1, Wheel2, 1,-1,1)) // Score Second Sample
-                        .stopAndAdd(new ArmInRD(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,-17.25,0,-1,0,0,1.8)) // ExtDown
-                        .stopAndAdd(new ArmInRD(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,-5,-133,-1,0,0,2)) // Rot Down
-                        .strafeToLinearHeading(new Vector2d(-65,-53), Math.toRadians(89)) // ThirdSampleStrafe
-                        .stopAndAdd(new ArmOutRU(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,18,6,.85,-1,1,3)) // Grap Sample Three
+                        .stopAndAdd(new ArmInRD(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,-19,0,-1,0,0,1.8)) // ExtDown
+                        .stopAndAdd(new ArmInRD(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,-5,-136,-1,0,0,1.3)) // Rot Down
+                        .strafeToLinearHeading(new Vector2d(-67,-53), Math.toRadians(93)) // ThirdSampleStrafe
+                        .stopAndAdd(new ArmOutRU(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,18,3,.85,-1,1,3)) // Grap Sample Three
                         .stopAndAdd(new ArmInRD(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,-14,0,-1,0,0,1)) // Tuck In Arm
-                        .stopAndAdd(new ArmOutRU(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,0,92,1,0,0,2)) // RotUp
-                        .strafeToLinearHeading(new Vector2d( -62, -67), Math.toRadians(-142)) // ThirdScoreStrafe
-                        .stopAndAdd(new ArmOutRU(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,20,29,1,0,0,2)) // ArmUP
+                        .stopAndAdd(new ArmOutRU(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,0,96,1,0,0,1.5)) // RotUp
+                        .strafeToLinearHeading(new Vector2d( -63, -67), Math.toRadians(240)) // ThirdScoreStrafe
+                        .stopAndAdd(new ArmOutRU(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,20,27,1,0,0,2)) // ArmUP
                         .stopAndAdd(new Intake(Wheel1, Wheel2, 1,-1,1)) // Score Third Sample
 
 
