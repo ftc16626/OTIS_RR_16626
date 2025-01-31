@@ -56,8 +56,8 @@ public class RightSideLoserProgram extends LinearOpMode {
                         .strafeToLinearHeading(new Vector2d(38,-10), Math.toRadians(81)) // Forward
                         .strafeToLinearHeading(new Vector2d(45,-10), Math.toRadians(81)) // Right
                         .strafeToLinearHeading(new Vector2d(45,-56), Math.toRadians(81)) // Back
-                        .strafeToLinearHeading(new Vector2d(61,-45), Math.toRadians(81)) // Forward
-                        .stopAndAdd(new ArmOutRU(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,18,15,1,-1,1,2.5)) // Grap Sample
+                        .strafeToLinearHeading(new Vector2d(63,-37), Math.toRadians(94)) // Forward
+                        .stopAndAdd(new ArmOutRU(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,20,4,.85,-1,1,4)) // Grap Sample
                         .stopAndAdd(new ArmInRD(extendArm1, extendArm2, rotateArm, Wheel1, Wheel2,-10,0,-.85,0,0,1.8)) // ArmIn
                         .strafeToLinearHeading(new Vector2d(61,-60), Math.toRadians(81)) // Park
 
